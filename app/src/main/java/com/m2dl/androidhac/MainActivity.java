@@ -1,5 +1,7 @@
 package com.m2dl.androidhac;
 
+import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -11,6 +13,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -67,33 +70,48 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //On veut prendre une photo
     public void takePhoto(View view) {
         //Création d'un intent
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (intent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
+        Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
 
-            //Création du fichier image
-            File photo = new File(Environment.getExternalStorageDirectory(),  "capture.jpg");
-            intent.putExtra(MediaStore.EXTRA_OUTPUT,
-                    Uri.fromFile(photo));
-            imageUri = Uri.fromFile(photo);
+        //Création du fichier image
+        File photo = new File(Environment.getExternalStorageDirectory(),  "Pic.jpg");
+        intent.putExtra(MediaStore.EXTRA_OUTPUT,
+                Uri.fromFile(photo));
+        imageUri = Uri.fromFile(photo);
 
-            // On fait le lien entre la photo prise et le fichier que l'on vient de créer
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photo));
-
-            //On lance l'intent
-            startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
-            Toast.makeText(this, imageUri.toString(), Toast.LENGTH_LONG).show();
-        }
+        //On lance l'intent
+        startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
     }
 
+    //On a reçu le résultat d'une activité
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
-            ivPhoto.setImageBitmap(imageBitmap);
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            //Si l'activité était une prise de photo
+            case CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE:
+                if (resultCode == Activity.RESULT_OK) {
+                    Uri selectedImage = imageUri;
+                    getContentResolver().notifyChange(selectedImage, null);
+                    ImageView imageView = (ImageView) findViewById(R.id.ivPhoto);
+                    ContentResolver cr = getContentResolver();
+                    Bitmap bitmap;
+                    try {
+                        bitmap = android.provider.MediaStore.Images.Media
+                                .getBitmap(cr, selectedImage);
+
+                        imageView.setImageBitmap(bitmap);
+                        //Affichage de l'infobulle
+                        Toast.makeText(this, selectedImage.toString(),
+                                Toast.LENGTH_LONG).show();
+                    } catch (Exception e) {
+                        Toast.makeText(this, "Failed to load", Toast.LENGTH_SHORT)
+                                .show();
+                        Log.e("Camera", e.toString());
+                    }
+                }
         }
     }
 
@@ -114,6 +132,16 @@ public class MainActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        }
+
+        boolean res = true;
+        switch (id) {
+            case R.id.photo:
+
+                Intent intent = new Intent(this, PhotoIntentActivity.class);
+                startActivity(intent);
+
+                break;
         }
 
         return super.onOptionsItemSelected(item);
