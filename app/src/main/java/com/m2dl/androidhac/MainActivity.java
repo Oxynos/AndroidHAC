@@ -27,9 +27,16 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
 import java.io.File;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
     private static final int MY_PERMISSIONS_REQUEST = 0;
     User user;
 
@@ -80,6 +87,11 @@ public class MainActivity extends AppCompatActivity {
 
         btnPhoto = (Button) findViewById(R.id.btnPhoto);
         ivPhoto = (ImageView) findViewById(R.id.ivPhoto);
+
+        MapFragment mapFragment = (MapFragment) getFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+
 
 
         // Bouton en bas à droite
@@ -208,4 +220,18 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MapsActivity.class);
         startActivity(intent);
     }
+
+    @Override
+    public void onMapReady(GoogleMap map) {
+        LatLng sydney = new LatLng(-33.867, 151.206);
+
+        map.setMyLocationEnabled(true);
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 13));
+
+        map.addMarker(new MarkerOptions()
+                .title("Sydney")
+                .snippet("The most populous city in Australia.")
+                .position(sydney));
+    }
+    
 }
