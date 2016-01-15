@@ -46,4 +46,14 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Maps"
+        android:id="@+id/mapButton"
+        android:layout_below="@+id/ivPhoto"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="86dp"
+        android:onClick="launchMapsActivity"/>
 </RelativeLayout>
