@@ -52,10 +52,9 @@
         android:layout_height="wrap_content"
         android:text="Maps"
         android:id="@+id/mapButton"
-        android:layout_below="@+id/ivPhoto"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="86dp"
-        android:onClick="launchMapsActivity"/>
+        android:onClick="launchMapsActivity"
+        android:layout_below="@+id/btnPhoto"
+        android:layout_centerHorizontal="true" />
 
     <fragment
         android:layout_width="wrap_content"
@@ -65,8 +64,8 @@
         android:layout_alignParentBottom="true"
         android:layout_alignRight="@+id/ivPhoto"
         android:layout_alignEnd="@+id/ivPhoto"
-        android:layout_below="@+id/mapButton"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/btnPhoto" />
 
 </RelativeLayout>
