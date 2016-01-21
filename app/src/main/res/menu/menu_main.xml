@@ -12,4 +12,10 @@
         android:orderInCategory="100"
         android:title="@string/action_settings"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/imv_plan"
+        android:orderInCategory="100"
+        android:title="@string/Plan"
+        app:showAsAction="never" />
 </menu>

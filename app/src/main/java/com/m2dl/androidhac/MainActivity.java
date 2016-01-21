@@ -32,6 +32,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.GroundOverlayOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -213,6 +214,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 startActivity(intent);
 
                 break;
+            case R.id.imv_plan:
+                launchPlanActivity();
+                break;
         }
 
         return super.onOptionsItemSelected(item);
@@ -223,24 +227,23 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         startActivity(intent);
     }
 
+    public void launchPlanActivity() {
+        Intent intent = new Intent(this, PlanActivity.class);
+        startActivity(intent);
+    }
+
     @Override
     public void onMapReady(GoogleMap map) {
-        LatLng sydney = new LatLng(-33.867, 151.206);
+        LatLng ups = new LatLng(43.5605378, 1.4686919);
 
         map.setMyLocationEnabled(true);
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 13));
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(ups, 13));
 
         map.addMarker(new MarkerOptions()
-                .title("Sydney")
-                .snippet("The most populous city in Australia.")
-                .position(sydney));
+                .title("Université Paul Sabatier")
+                .snippet("La plus belle université")
+                .position(ups));
 
-        LatLng NEWARK = new LatLng(-33.867,151.206);
-
-        GroundOverlayOptions newarkMap = new GroundOverlayOptions()
-                .image(BitmapDescriptorFactory.fromResource(R.drawable.map_tri_2))
-                .position(NEWARK, 8600f, 6500f);
-        map.addGroundOverlay(newarkMap);
     }
     
 }

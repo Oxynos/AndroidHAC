@@ -8,4 +8,6 @@
     <string name="cannot">Cannot</string>
     <string name="album_name">CameraSample</string>
     <string name="title_activity_maps">Map</string>
+    <string name="title_activity_plan">PlanActivity</string>
+    <string name="Plan">Plan</string>
 </resources>
