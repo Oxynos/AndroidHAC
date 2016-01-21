@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -38,6 +39,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.File;
+import java.net.URISyntaxException;
+import java.sql.SQLException;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
     private static final int MY_PERMISSIONS_REQUEST = 0;
@@ -46,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private TextView tv1;
     private Button btnPhoto;
     private ImageView ivPhoto;
+    private AsyncTask dbInstance;
 
     private Uri imageUri;
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
@@ -223,8 +227,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     public void launchMapsActivity(View view) {
-        Intent intent = new Intent(this, MapsActivity.class);
-        startActivity(intent);
+        /*Intent intent = new Intent(this, MapsActivity.class);
+        startActivity(intent);*/
+
+        /*dbInstance = new CreateTables();
+        dbInstance.execute();*/
+
     }
 
     public void launchPlanActivity() {
