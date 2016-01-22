@@ -1,5 +1,6 @@
 package com.m2dl.androidhac;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,6 +12,11 @@ public class Photo {
 
     public Photo(List<Tag> tags, String nom) {
         this.tags = tags;
+        this.nom = nom;
+    }
+
+    public Photo(String nom) {
+        this.tags = new ArrayList<>();
         this.nom = nom;
     }
 
