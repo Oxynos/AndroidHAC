@@ -8,25 +8,15 @@ import java.util.List;
  * Created by cedricrohaut on 1/15/16.
  */
 public class Photo {
-    private List<Tag> tags;
     private String nom;
     private String url;
     private LatLng coordonnees;
 
 
-    public Photo(List<Tag> tags, String nom, String url, LatLng coordonnees) {
-        this.tags = tags;
+    public Photo(String nom, String url, LatLng coordonnees) {
         this.nom = nom;
         this.url = url;
         this.coordonnees = coordonnees;
-    }
-
-    public List<Tag> getTags() {
-        return tags;
-    }
-
-    public void setTags(List<Tag> tags) {
-        this.tags = tags;
     }
 
     public String getNom() {

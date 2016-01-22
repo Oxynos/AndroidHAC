@@ -6,7 +6,9 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Properties;
 
 /**
@@ -31,5 +33,35 @@ public class DatabaseService {
         String dbUrl = "jdbc:postgresql://ec2-54-83-61-45.compute-1.amazonaws.com:5432/d7733f6ufgem1?sslmode=require";
 
         return DriverManager.getConnection(dbUrl, props);
+    }
+
+    public static Boolean insertUpdateOrDeleteRequest(String sqlRequest) throws URISyntaxException, SQLException {
+        Connection c;
+        Statement s;
+
+        c = getConnection();
+        s = c.createStatement();
+        s.executeUpdate(sqlRequest);
+        s.close();
+        c.commit();
+        c.close();
+
+        return true;
+    }
+
+
+    public static ResultSet selectRequest(String sqlRequest) throws URISyntaxException, SQLException {
+        Connection c;
+        Statement s;
+        ResultSet resultSet;
+
+        c = getConnection();
+        s = c.createStatement();
+        resultSet = s.executeQuery(sqlRequest);
+        s.close();
+        c.commit();
+        c.close();
+
+        return resultSet;
     }
 }

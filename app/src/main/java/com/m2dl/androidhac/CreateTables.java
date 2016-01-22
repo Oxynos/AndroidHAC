@@ -21,13 +21,13 @@ public class CreateTables extends AsyncTask {
             connection = DatabaseService.getConnection();
             statement = connection.createStatement();
             request = "CREATE TABLE users " +
-                    "(ID INT PRIMARY KEY     NOT NULL," +
+                    "(ID serial PRIMARY KEY     NOT NULL," +
                     " PSEUDO           TEXT    NOT NULL)";
             statement.executeUpdate(request);
 
             //Creation table PHOTO
             request = "CREATE TABLE PHOTO " +
-                    "(ID INT PRIMARY KEY NOT NULL, " +
+                    "(ID serial PRIMARY KEY NOT NULL, " +
                     " URL TEXT NOT NULL, " +
                     "NOM TEXT, " +
                     "LAT REAL, " +
@@ -36,7 +36,7 @@ public class CreateTables extends AsyncTask {
 
             //Creation table TAG
             request = "CREATE TABLE TAG " +
-                    "(ID INT PRIMARY KEY NOT NULL," +
+                    "(ID serial PRIMARY KEY NOT NULL," +
                     "ID_P INT REFERENCES PHOTO," +
                     " TAG TEXT NOT NULL)";
             statement.executeUpdate(request);

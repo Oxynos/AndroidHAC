@@ -34,6 +34,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.net.URISyntaxException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,6 +70,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mLoginFormView;
 
     User user;
+
+    private InsertOrUpdateRequestDBService userServiceDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -347,7 +351,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             if (success) {
                 finish();
                 Intent myIntent = new Intent(LoginActivity.this, MainActivity.class);
+                userServiceDB = new InsertOrUpdateRequestDBService(UserRequestServiceDB.createUser(user));
+                userServiceDB.execute();
                 myIntent.putExtra("user", user.getPseudo());
+
                 startActivity(myIntent);
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));

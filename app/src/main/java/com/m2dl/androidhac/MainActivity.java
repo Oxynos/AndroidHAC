@@ -203,8 +203,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         /*Intent intent = new Intent(this, MapsActivity.class);
         startActivity(intent);*/
 
-        /*dbInstance = new CreateTables();
-        dbInstance.execute();*/
+        dbInstance = new CreateTables();
+        dbInstance.execute();
 
     }
 
