@@ -11,12 +11,14 @@ public class Photo {
     private String nom;
     private String url;
     private LatLng coordonnees;
+    private Tag tag;
 
 
-    public Photo(String nom, String url, LatLng coordonnees) {
+    public Photo(String nom, String url, LatLng coordonnees, Tag tag) {
         this.nom = nom;
         this.url = url;
         this.coordonnees = coordonnees;
+        this.tag = tag;
     }
 
     public String getNom() {
@@ -41,5 +43,13 @@ public class Photo {
 
     public LatLng getCoordonnees() {
         return coordonnees;
+    }
+
+    public Tag getTag() {
+        return tag;
+    }
+
+    public void setTag(Tag tag) {
+        this.tag = tag;
     }
 }

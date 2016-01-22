@@ -43,7 +43,6 @@ public class DatabaseService {
         s = c.createStatement();
         s.executeUpdate(sqlRequest);
         s.close();
-        c.commit();
         c.close();
 
         return true;
@@ -59,7 +58,6 @@ public class DatabaseService {
         s = c.createStatement();
         resultSet = s.executeQuery(sqlRequest);
         s.close();
-        c.commit();
         c.close();
 
         return resultSet;

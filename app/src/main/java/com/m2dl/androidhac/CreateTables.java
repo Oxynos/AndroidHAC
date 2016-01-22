@@ -29,6 +29,7 @@ public class CreateTables extends AsyncTask {
             request = "CREATE TABLE PHOTO " +
                     "(ID serial PRIMARY KEY NOT NULL, " +
                     " URL TEXT NOT NULL, " +
+                    "TAG TEXT NOT NULL" +
                     "NOM TEXT, " +
                     "LAT REAL, " +
                     "LON REAL)";

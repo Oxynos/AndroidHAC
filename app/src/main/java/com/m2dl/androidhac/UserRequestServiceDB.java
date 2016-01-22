@@ -7,11 +7,15 @@ public class UserRequestServiceDB {
 
     public static String createUser(User user) {
         return "INSERT INTO USERS (PSEUDO) "
-                + "VALUES (" + user.getPseudo() + ");";
+                + "VALUES ('" + user.getPseudo() + "');";
     }
 
     public static String deleteUser(User user) {
-        return "DELETE from COMPANY where PSEUDO=" + user.getPseudo() +";";
+        return "DELETE from USERS where PSEUDO=" + user.getPseudo() +";";
+    }
+
+    public static String deleteAllUser() {
+        return "DELETE from USERS;";
     }
 
 }
