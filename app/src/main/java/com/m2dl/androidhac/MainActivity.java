@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -45,6 +46,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.net.URISyntaxException;
+import java.sql.SQLException;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
     private static final int MY_PERMISSIONS_REQUEST = 0;
@@ -54,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private TextView tv1;
     private Button btnPhoto;
     private ImageView ivPhoto;
+    private AsyncTask dbInstance;
 
     private Uri imageUri;
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
@@ -83,19 +87,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         {
             String psuedo =(String) b.get("user");
             user = new User(psuedo);
-            tv1.setText("Bonjour " + user.getPseudo() + " !\nMerci de votre comportement éco responsable. :) ");
-        } else {
-            user = new User("pseudo_utilisateur");
+            tv1.setText("Bonjour " + user.getPseudo() + "!\nMerci de votre comportement éco responsable. :) ");
         }
 
         btnPhoto = (Button) findViewById(R.id.btnPhoto);
         ivPhoto = (ImageView) findViewById(R.id.ivPhoto);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO) {
-            mAlbumStorageDirFactory = new FroyoAlbumDirFactory();
-        } else {
-            mAlbumStorageDirFactory = new BaseAlbumDirFactory();
-        }
 
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
@@ -179,8 +175,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     public void launchMapsActivity(View view) {
-        Intent intent = new Intent(this, MapsActivity.class);
-        startActivity(intent);
+        /*Intent intent = new Intent(this, MapsActivity.class);
+        startActivity(intent);*/
+
+        /*dbInstance = new CreateTables();
+        dbInstance.execute();*/
+
     }
 
     public void launchPlanActivity() {
@@ -191,7 +191,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onMapReady(GoogleMap map) {
         LatLng ups = new LatLng(43.5605378, 1.4686919);
-
 
         map.setMyLocationEnabled(true);
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(ups, 13));
