@@ -1,5 +1,8 @@
 package com.m2dl.androidhac;
 
+import com.google.android.gms.maps.model.LatLng;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**

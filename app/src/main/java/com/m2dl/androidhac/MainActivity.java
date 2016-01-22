@@ -3,9 +3,12 @@ package com.m2dl.androidhac;
 import android.Manifest;
 import android.app.Activity;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -62,8 +65,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private Uri imageUri;
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
 
-    private String mCurrentPhotoPath;
-    private AlbumStorageDirFactory mAlbumStorageDirFactory = null;
     private static final String JPEG_FILE_PREFIX = "IMG_";
     private static final String JPEG_FILE_SUFFIX = ".jpg";
 
@@ -78,14 +79,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        Intent iin= getIntent();
+        Intent iin = getIntent();
         Bundle b = iin.getExtras();
 
         tv1 = (TextView) findViewById(R.id.textView);
 
-        if(b!=null)
-        {
-            String psuedo =(String) b.get("user");
+        if (b != null) {
+            String psuedo = (String) b.get("user");
             user = new User(psuedo);
             tv1.setText("Bonjour " + user.getPseudo() + "!\nMerci de votre comportement éco responsable. :) ");
         }
@@ -118,11 +118,28 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = JPEG_FILE_PREFIX + user.getPseudo() + "_" + timeStamp + "_";
 
-        File photo = new File(Environment.getExternalStorageDirectory(),  imageFileName + JPEG_FILE_SUFFIX);
+        File photo = new File(Environment.getExternalStorageDirectory(), imageFileName + JPEG_FILE_SUFFIX);
         takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photo));
         imageUri = Uri.fromFile(photo);
 
+        LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        double longitude = location.getLongitude();
+        double latitude = location.getLatitude();
+
         Photo photoTemp = new Photo(imageUri.toString());
+        photoTemp.setCoordonnees(new LatLng(latitude, longitude));
+        Log.i("Message", photoTemp.getCoordonnees().toString());
         System.out.println(photoTemp.getNom());
         photos.add(photoTemp);
         System.out.println(photos.size());
