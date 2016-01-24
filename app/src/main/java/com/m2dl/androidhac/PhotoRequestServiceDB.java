@@ -16,4 +16,8 @@ public class PhotoRequestServiceDB {
     public static String deletePhoto(Photo photo) {
         return "DELETE from PHOTO where URL=" + photo.getUrl() +";";
     }
+
+    public static String deleteAllPhoto(Photo photo) {
+        return "DELETE from PHOTO;";
+    }
 }

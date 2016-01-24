@@ -22,6 +22,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,8 +41,10 @@ public class TagsActivity extends AppCompatActivity {
     private ImageView mImageView;
     private Bitmap mImageBitmap;
     private TextView tv1;
+    private Button button;
 
     private Uri imageUri;
+    private Tag tag;
 
     private String mCurrentPhotoPath;
     private DatabaseTask databaseTask;
@@ -57,6 +60,7 @@ public class TagsActivity extends AppCompatActivity {
         tv1 = (TextView) findViewById(R.id.textView2);
         mImageView = (ImageView) findViewById(R.id.imageView);
         mImageBitmap = null;
+        button = (Button) findViewById(R.id.btnValider);
 
         Intent iin= getIntent();
         Bundle b = iin.getExtras();
@@ -88,6 +92,35 @@ public class TagsActivity extends AppCompatActivity {
                 savedInstanceState.getBoolean(IMAGEVIEW_VISIBILITY_STORAGE_KEY) ?
                         ImageView.VISIBLE : ImageView.INVISIBLE
         );
+    }
+
+    public void onRadioButtonClicked(View view) {
+        boolean checked = ((RadioButton) view).isChecked();
+
+        switch(view.getId()) {
+            case R.id.rBtDegradation:
+                if (checked) {
+                    tag = Tag.DEGRADATION;
+                    button.setText("Enregistrer Dégradation");
+                }
+                    break;
+            case R.id.rBtFuite:
+                if (checked) {
+                    tag = Tag.FUITEDEAU;
+                    button.setText("Enregistrer Fuite");
+
+                }
+                break;
+            case R.id.rBtRecyclage:
+                if (checked) {
+                    tag = Tag.RECYCLAGE;
+                    button.setText("Enregistrer Zone Recyclage");
+                }
+
+                    break;
+        }
+
+
     }
 
     private void setPic() {
@@ -125,7 +158,7 @@ public class TagsActivity extends AppCompatActivity {
         double latitude = location.getLatitude();
 
         //TODO : Avoir une URL d'image
-        Photo photo = new Photo("",imageUri.getPath(), new LatLng(latitude, longitude), Tag.DEGRADATION);
+        Photo photo = new Photo("",imageUri.getPath(), new LatLng(latitude, longitude), tag);
 
         databaseTask = new DatabaseTask(PhotoRequestServiceDB.createPhoto(photo));
         databaseTask.execute();
