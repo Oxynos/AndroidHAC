@@ -6,13 +6,12 @@ import java.net.URISyntaxException;
 import java.sql.SQLException;
 
 /**
- * Created by manantsoa on 22/01/16.
+ * Created by manantsoa on 24/01/16.
  */
-public class InsertOrUpdateRequestDBService extends AsyncTask {
+public class DatabaseTask extends AsyncTask {
     String request;
 
-
-    InsertOrUpdateRequestDBService(String request) {
+    public DatabaseTask(String request) {
         this.request = request;
     }
 

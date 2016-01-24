@@ -7,6 +7,8 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -22,6 +24,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.maps.model.LatLng;
 
 import java.io.File;
 import java.io.IOException;
@@ -40,32 +44,7 @@ public class TagsActivity extends AppCompatActivity {
     private Uri imageUri;
 
     private String mCurrentPhotoPath;
-
-    private void setPic() {
-        Uri selectedImage = imageUri;
-        getContentResolver().notifyChange(selectedImage, null);
-        ImageView imageView = (ImageView) findViewById(R.id.imageView);
-        ContentResolver cr = getContentResolver();
-        Bitmap bitmap;
-        try {
-            bitmap = android.provider.MediaStore.Images.Media.getBitmap(cr, selectedImage);
-
-            mImageView.setImageBitmap(bitmap);
-            mImageView.setVisibility(View.VISIBLE);
-        } catch (Exception e) {
-            Toast.makeText(this, "Failed to load", Toast.LENGTH_SHORT)
-                    .show();
-            Log.e("Camera", e.toString());
-        }
-    }
-
-    private void galleryAddPic() {
-        Intent mediaScanIntent = new Intent("android.intent.action.MEDIA_SCANNER_SCAN_FILE");
-        File f = new File(mCurrentPhotoPath);
-        Uri contentUri = Uri.fromFile(f);
-        mediaScanIntent.setData(contentUri);
-        this.sendBroadcast(mediaScanIntent);
-    }
+    private DatabaseTask databaseTask;
 
     /** Called when the activity is first created. */
     @Override
@@ -109,5 +88,46 @@ public class TagsActivity extends AppCompatActivity {
                 savedInstanceState.getBoolean(IMAGEVIEW_VISIBILITY_STORAGE_KEY) ?
                         ImageView.VISIBLE : ImageView.INVISIBLE
         );
+    }
+
+    private void setPic() {
+        Uri selectedImage = imageUri;
+        getContentResolver().notifyChange(selectedImage, null);
+        ImageView imageView = (ImageView) findViewById(R.id.imageView);
+        ContentResolver cr = getContentResolver();
+        Bitmap bitmap;
+        try {
+            bitmap = android.provider.MediaStore.Images.Media.getBitmap(cr, selectedImage);
+
+            mImageView.setImageBitmap(bitmap);
+            mImageView.setVisibility(View.VISIBLE);
+        } catch (Exception e) {
+            Toast.makeText(this, "Failed to load", Toast.LENGTH_SHORT)
+                    .show();
+            Log.e("Camera", e.toString());
+        }
+    }
+
+    private void galleryAddPic() {
+        Intent mediaScanIntent = new Intent("android.intent.action.MEDIA_SCANNER_SCAN_FILE");
+        File f = new File(mCurrentPhotoPath);
+        Uri contentUri = Uri.fromFile(f);
+        mediaScanIntent.setData(contentUri);
+        this.sendBroadcast(mediaScanIntent);
+    }
+
+    public void storePic(View view) {
+
+        LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+        Location location = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        double longitude = location.getLongitude();
+        double latitude = location.getLatitude();
+
+        //TODO : Avoir une URL d'image
+        Photo photo = new Photo("",imageUri.getPath(), new LatLng(latitude, longitude), Tag.DEGRADATION);
+
+        databaseTask = new DatabaseTask(PhotoRequestServiceDB.createPhoto(photo));
+        databaseTask.execute();
     }
 }

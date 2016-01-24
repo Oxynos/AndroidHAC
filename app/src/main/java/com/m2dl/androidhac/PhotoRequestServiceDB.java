@@ -6,10 +6,11 @@ package com.m2dl.androidhac;
 public class PhotoRequestServiceDB {
 
     public static String createPhoto(Photo photo) {
-        return "INSERT INTO USERS (URL, NOM, LAT, LON) "
+        return "INSERT INTO PHOTO (URL, NOM, LAT, LON, TAG) "
                 + "VALUES ('" + photo.getUrl() + "', " +
                 "'" + photo.getNom() + "','" + photo.getCoordonnees().latitude + "'," +
-                "'" + photo.getCoordonnees().longitude + "');";
+                "'" + photo.getCoordonnees().longitude + "'," +
+                "'" + photo.getTag() +"');";
     }
 
     public static String deletePhoto(Photo photo) {
