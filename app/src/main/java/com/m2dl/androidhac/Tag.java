@@ -1,21 +1,20 @@
 package com.m2dl.androidhac;
 
 /**
- * Created by cedricrohaut on 1/15/16.
+ * Created by manantsoa on 22/01/16.
  */
-public class Tag {
-    private String tag;
+public enum Tag {
+    RECYCLAGE("Recyclage"),
+    DEGRADATION("Dégradation"),
+    FUITEDEAU("Fuite d'eau");
 
-    public String getTag() {
-        return tag;
+    private String name = "";
+
+    Tag(String name) {
+        this.name = name;
     }
 
-    public void setTag(String tag) {
-        this.tag = tag;
-    }
-
-    public Tag(String tag) {
-
-        this.tag = tag;
+    public String toString() {
+        return name;
     }
 }

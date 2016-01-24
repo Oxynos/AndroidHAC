@@ -2,55 +2,39 @@ package com.m2dl.androidhac;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
 import android.provider.MediaStore;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.VideoView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.CameraPosition;
-import com.google.android.gms.maps.model.GroundOverlayOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.File;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.net.URISyntaxException;
-import java.sql.SQLException;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
     private static final int MY_PERMISSIONS_REQUEST = 0;
@@ -123,17 +107,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         imageUri = Uri.fromFile(photo);
 
         LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+        Location location = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
         double longitude = location.getLongitude();
         double latitude = location.getLatitude();
 
@@ -195,8 +170,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         /*Intent intent = new Intent(this, MapsActivity.class);
         startActivity(intent);*/
 
-        /*dbInstance = new CreateTables();
-        dbInstance.execute();*/
+        dbInstance = new CreateTables();
+        dbInstance.execute();
 
     }
 
