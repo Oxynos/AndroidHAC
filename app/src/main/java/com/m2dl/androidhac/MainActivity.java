@@ -40,6 +40,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.File;
+import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.sql.SQLException;
 
@@ -150,6 +151,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     try {
                         bitmap = android.provider.MediaStore.Images.Media
                                 .getBitmap(cr, selectedImage);
+
+
+                        InputStream in = getContentResolver().openInputStream(imageUri);
+
+                        PhotoStorage ps = new PhotoStorage(bitmap);
+                        ps.execute(in);
 
                         imageView.setImageBitmap(bitmap);
                         //Affichage de l'infobulle
