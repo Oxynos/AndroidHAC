@@ -21,8 +21,8 @@
         android:layout_above="@+id/textView2">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="357dp"
             android:id="@+id/imageView"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
@@ -32,78 +32,79 @@
             android:layout_alignParentTop="true" >
         </ImageView>
 
-        <com.m2dl.androidhac.CustomDrawableView android:id="@+id/Canvas01" android:layout_width="fill_parent" android:layout_height="689dp"
+        <com.m2dl.androidhac.CustomDrawableView android:id="@+id/Canvas01" android:layout_width="fill_parent" android:layout_height="358dp"
             android:layout_gravity="center_horizontal|top"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_above="@+id/textView2"></com.m2dl.androidhac.CustomDrawableView>
 
+        <RadioGroup
+            android:layout_width="361dp"
+            android:layout_height="201dp"
+            android:layout_below="@+id/textView2"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_gravity="center_horizontal|bottom">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="File : "
+                android:id="@+id/textView2"
+                android:textAlignment="center"
+                android:layout_above="@+id/checkBox"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignRight="@+id/vueG"
+                android:layout_alignEnd="@+id/vueG" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Dégradation"
+                android:id="@+id/rBtDegradation"
+                android:layout_below="@+id/rBtRecyclage"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:checked="true"
+                android:onClick="onRadioButtonClicked"/>
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Recyclage"
+                android:id="@+id/rBtRecyclage"
+                android:layout_below="@+id/rBtFuite"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:checked="false"
+                android:onClick="onRadioButtonClicked"/>
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Fuite d&apos;eau"
+                android:id="@+id/rBtFuite"
+                android:layout_below="@+id/textView2"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:checked="false"
+                android:onClick="onRadioButtonClicked"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Valider"
+                android:id="@+id/btnValider"
+                android:layout_below="@+id/rBtDegradation"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignRight="@+id/textView2"
+                android:layout_alignEnd="@+id/textView2"
+                android:onClick="storePic"/>
+        </RadioGroup>
+
     </FrameLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="File : "
-        android:id="@+id/textView2"
-        android:textAlignment="center"
-        android:layout_above="@+id/checkBox"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/vueG"
-        android:layout_alignEnd="@+id/vueG" />
-
-    <RadioGroup
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/imageView">
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Dégradation"
-            android:id="@+id/rBtDegradation"
-            android:layout_below="@+id/rBtRecyclage"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:checked="true"
-            android:onClick="onRadioButtonClicked"/>
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Recyclage"
-            android:id="@+id/rBtRecyclage"
-            android:layout_below="@+id/rBtFuite"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:checked="false"
-            android:onClick="onRadioButtonClicked"/>
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Fuite d&apos;eau"
-            android:id="@+id/rBtFuite"
-            android:layout_below="@+id/textView2"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:checked="false"
-            android:onClick="onRadioButtonClicked"/>
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Valider"
-            android:id="@+id/btnValider"
-            android:layout_below="@+id/rBtDegradation"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignRight="@+id/textView2"
-            android:layout_alignEnd="@+id/textView2"
-            android:onClick="storePic"/>
-    </RadioGroup>
 </RelativeLayout>
