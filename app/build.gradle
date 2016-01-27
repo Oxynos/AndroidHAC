@@ -25,5 +25,9 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.android.support:design:23.1.1'
     compile 'com.google.android.gms:play-services:8.3.0'
+    compile 'com.cloudinary:cloudinary-android:1.2.2'
+    compile 'com.squareup.picasso:picasso:2.5.2'
+
     compile files('libs/postgresql-9.4.1207.jre6.jar')
+
 }
