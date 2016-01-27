@@ -66,6 +66,7 @@ public class TagsActivity extends AppCompatActivity implements AsyncResponse {
         mImageView = (ImageView) findViewById(R.id.imageView);
         mImageBitmap = null;
         button = (Button) findViewById(R.id.btnValider);
+        tag = Tag.DEGRADATION;
 
         Intent iin= getIntent();
         Bundle b = iin.getExtras();

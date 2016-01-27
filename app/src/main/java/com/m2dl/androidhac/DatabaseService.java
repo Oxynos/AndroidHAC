@@ -48,7 +48,7 @@ public class DatabaseService {
     }
 
 
-    public static ResultSet selectRequest(String sqlRequest) throws URISyntaxException, SQLException {
+    public static ResultSet getAllPhoto(String sqlRequest) throws URISyntaxException, SQLException {
         Connection c;
         Statement s;
         ResultSet resultSet;
