@@ -320,8 +320,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             if (success) {
                 finish();
                 Intent myIntent = new Intent(LoginActivity.this, MainActivity.class);
-                databaseTask = new DatabaseTask(UserRequestServiceDB.createUser(user));
-                databaseTask.execute();
+                //databaseTask = new DatabaseTask(UserRequestServiceDB.createUser(user));
+                //databaseTask.execute();
                 myIntent.putExtra("user", user.getPseudo());
 
                 startActivity(myIntent);
