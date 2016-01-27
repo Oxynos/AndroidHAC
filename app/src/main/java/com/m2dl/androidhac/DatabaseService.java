@@ -29,8 +29,7 @@ public class DatabaseService {
         Properties props = new Properties();
         props.setProperty("user",username);
         props.setProperty("password",password);
-        props.setProperty("ssl","true");
-        String dbUrl = "jdbc:postgresql://ec2-54-83-61-45.compute-1.amazonaws.com:5432/d7733f6ufgem1?sslmode=require";
+        String dbUrl = "jdbc:postgresql://ec2-54-83-61-45.compute-1.amazonaws.com:5432/d7733f6ufgem1?" + "ssl=true&"+ "sslfactory=org.postgresql.ssl.NonValidatingFactory";
 
         return DriverManager.getConnection(dbUrl, props);
     }
