@@ -80,6 +80,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+       // GetAllTagsAsync gata = new GetAllTagsAsync(PhotoRequestServiceDB.getAllTags());
+       // gata.execute();
     }
 
     @Override
@@ -100,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = JPEG_FILE_PREFIX + user.getPseudo() + "_" + timeStamp + "_";
+        String imageFileName = JPEG_FILE_PREFIX  + "_" + timeStamp + "_";
 
         File photo = new File(Environment.getExternalStorageDirectory(), imageFileName + JPEG_FILE_SUFFIX);
         takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photo));

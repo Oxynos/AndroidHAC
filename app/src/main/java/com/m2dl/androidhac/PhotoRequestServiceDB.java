@@ -13,6 +13,10 @@ public class PhotoRequestServiceDB {
                 "'" + photo.getTag() +"');";
     }
 
+    public static String getAllTags() {
+        return "SELECT * FROM PHOTO";
+    }
+
     public static String deletePhoto(Photo photo) {
         return "DELETE from PHOTO where URL=" + photo.getUrl() +";";
     }

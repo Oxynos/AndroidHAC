@@ -29,8 +29,7 @@ public class DatabaseService {
         Properties props = new Properties();
         props.setProperty("user",username);
         props.setProperty("password",password);
-        props.setProperty("ssl","true");
-        String dbUrl = "jdbc:postgresql://ec2-54-83-61-45.compute-1.amazonaws.com:5432/d7733f6ufgem1?sslmode=require";
+        String dbUrl = "jdbc:postgresql://ec2-54-83-61-45.compute-1.amazonaws.com:5432/d7733f6ufgem1?" + "ssl=true&"+ "sslfactory=org.postgresql.ssl.NonValidatingFactory";
 
         return DriverManager.getConnection(dbUrl, props);
     }
@@ -49,7 +48,7 @@ public class DatabaseService {
     }
 
 
-    public static ResultSet selectRequest(String sqlRequest) throws URISyntaxException, SQLException {
+    public static ResultSet getAllPhoto(String sqlRequest) throws URISyntaxException, SQLException {
         Connection c;
         Statement s;
         ResultSet resultSet;
