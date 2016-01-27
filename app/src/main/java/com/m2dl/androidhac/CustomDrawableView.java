@@ -95,8 +95,8 @@ public class CustomDrawableView extends View {
                         Bitmap bitmap;
                         try {
 
-                            imageView.setImageBitmap(resBmp);
-                            imageView.setVisibility(View.VISIBLE);
+                            //imageView.setImageBitmap(resBmp);
+                            //mageView.setVisibility(View.VISIBLE);
                         } catch (Exception e) {
                             Log.e("Camera", e.toString());
                         }
