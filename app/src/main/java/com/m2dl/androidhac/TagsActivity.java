@@ -28,6 +28,8 @@ import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -45,6 +47,7 @@ public class TagsActivity extends AppCompatActivity implements AsyncResponse {
     private ImageView mImageView;
     private Bitmap mImageBitmap;
     private TextView tv1;
+    private CustomDrawableView customDrawableView;
     private Button button;
 
     private Uri imageUri;
@@ -67,6 +70,8 @@ public class TagsActivity extends AppCompatActivity implements AsyncResponse {
         mImageBitmap = null;
         button = (Button) findViewById(R.id.btnValider);
         tag = Tag.DEGRADATION;
+        customDrawableView = (CustomDrawableView) findViewById(R.id.Canvas01);
+
 
         Intent iin= getIntent();
         Bundle b = iin.getExtras();
@@ -138,8 +143,7 @@ public class TagsActivity extends AppCompatActivity implements AsyncResponse {
         try {
             bitmap = android.provider.MediaStore.Images.Media.getBitmap(cr, selectedImage);
 
-            CustomDrawableView c = (CustomDrawableView) findViewById(R.id.Canvas01);
-            c.setBmp(bitmap);
+            customDrawableView.setBmp(bitmap);
 
             //mImageView.setImageBitmap(bitmap);
             //mImageView.setVisibility(View.VISIBLE);
@@ -167,18 +171,16 @@ public class TagsActivity extends AppCompatActivity implements AsyncResponse {
         double latitude = location.getLatitude();
         latlng = new LatLng(latitude, longitude);
 
-        InputStream in = null;
-        try {
-            in = getContentResolver().openInputStream(imageUri);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        customDrawableView.getBmp().compress(Bitmap.CompressFormat.PNG, 0 /*ignored for PNG*/, bos);
+        byte[] bitmapdata = bos.toByteArray();
+        ByteArrayInputStream bs = new ByteArrayInputStream(bitmapdata);
 
         String[] split = imageUri.getPath().split("/");
         PhotoStorage ps = new PhotoStorage();
         ps.delegate = this;
 
-        ps.execute(in, split[split.length - 1]);
+        ps.execute(bs, split[split.length - 1]);
     }
 
     @Override
