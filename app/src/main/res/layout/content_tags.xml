@@ -12,7 +12,7 @@
     tools:context="com.m2dl.androidhac.TagsActivity"
     tools:showIn="@layout/activity_tags">
 
-    <FrameLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
@@ -37,15 +37,16 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_above="@+id/textView2"></com.m2dl.androidhac.CustomDrawableView>
+            android:layout_above="@+id/radioGroup" />
 
         <RadioGroup
             android:layout_width="361dp"
             android:layout_height="201dp"
-            android:layout_below="@+id/textView2"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_gravity="center_horizontal|bottom">
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:id="@+id/radioGroup">
 
             <TextView
                 android:layout_width="match_parent"
@@ -105,6 +106,6 @@
                 android:onClick="storePic"/>
         </RadioGroup>
 
-    </FrameLayout>
+    </RelativeLayout>
 
 </RelativeLayout>

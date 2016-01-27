@@ -132,8 +132,11 @@ public class TagsActivity extends AppCompatActivity {
         try {
             bitmap = android.provider.MediaStore.Images.Media.getBitmap(cr, selectedImage);
 
-            mImageView.setImageBitmap(bitmap);
-            mImageView.setVisibility(View.VISIBLE);
+            CustomDrawableView c = (CustomDrawableView) findViewById(R.id.Canvas01);
+            c.setBmp(bitmap);
+
+            //mImageView.setImageBitmap(bitmap);
+            //mImageView.setVisibility(View.VISIBLE);
         } catch (Exception e) {
             Toast.makeText(this, "Failed to load", Toast.LENGTH_SHORT)
                     .show();
