@@ -28,6 +28,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -145,6 +146,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     myIntent.putExtra("imageUri", imageUri);
 
                     startActivity(myIntent);
+
+                    this.finish();
                 }
         }
     }
@@ -213,15 +216,24 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void processFinish(List<Photo> output) {
+
+        boolean equal = false;
+        equal = output.size() == photos.size();
+
         photos = output;
         final Activity act = this;
 
-        for (Photo p : photos) {
-            Marker currentMArker = gMap.addMarker(new MarkerOptions()
-                    .title(p.getNom())
-                    .position(p.getCoordonnees()));
+        if (!equal && gMap != null) {
+            for (Photo p : photos) {
+                float color = p.getTag() == null ? BitmapDescriptorFactory.HUE_YELLOW : p.getTag().getColor();
 
-            mapPhotos.put(p.getNom(), p);
+                Marker currentMArker = gMap.addMarker(new MarkerOptions()
+                        .title(p.getNom())
+                        .position(p.getCoordonnees())
+                        .icon(BitmapDescriptorFactory.defaultMarker(color)));
+
+                mapPhotos.put(p.getNom(), p);
+            }
         }
 
         gMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {

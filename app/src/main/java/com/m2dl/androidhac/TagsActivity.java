@@ -166,6 +166,9 @@ public class TagsActivity extends AppCompatActivity implements AsyncResponse {
 
         LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
+        Toast.makeText(this, "Voter image est en crous d'upload.", Toast.LENGTH_SHORT)
+                .show();
+
         Location location = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
         double longitude = location.getLongitude();
         double latitude = location.getLatitude();
