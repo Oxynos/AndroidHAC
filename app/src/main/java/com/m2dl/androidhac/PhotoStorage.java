@@ -1,5 +1,4 @@
 package com.m2dl.androidhac;
-
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.Image;
@@ -29,23 +28,20 @@ import java.util.Map;
 /**
  * Created by veoth on 22/01/16.
  */
-public class PhotoStorage extends AsyncTask {
+public class PhotoStorage extends AsyncTask<Object, Object, String> {
 
     Map config = new HashMap();
     Cloudinary cloudinary;
-    Bitmap bm;
+    public AsyncResponse delegate = null;
 
-    private AlbumStorageDirFactory mAlbumStorageDirFactory = null;
-
-    public PhotoStorage(Bitmap b) {
+    public PhotoStorage() {
         cloudinary = new Cloudinary("cloudinary://865819392471167:ZpLRgpVP0B2cwtPi2UxD_-xgud4@hbzvf90yn");
-        //iv = imageView;
-        bm = b;
     }
 
     @Override
-    protected Object doInBackground(Object[] params) {
+    protected String doInBackground(Object[] params) {
         URL url;
+        Map result = null;
 
         try {
 
@@ -62,23 +58,22 @@ public class PhotoStorage extends AsyncTask {
             os.close()*/;
 
             InputStream is = (InputStream)params[0];
+            String id = (String)params[1];
 
-            Map result = cloudinary.uploader().upload(is, ObjectUtils.asMap(
-                    "public_id", "sample_id",
-                    "sslmode", "require",
-                    "transformation", new Transformation().crop("limit").width(40).height(40),
-                    "eager", Arrays.asList(
-                            new Transformation().width(200).height(200)
-                                    .crop("thumb").gravity("face").radius(20)
-                                    .effect("sepia"),
-                            new Transformation().width(100).height(150)
-                                    .crop("fit").fetchFormat("png")
-                    ),
-                    "tags", "special, for_homepage"));
+            result = cloudinary.uploader().upload(is, ObjectUtils.asMap(
+                    "public_id", id,
+                    "transformation", new Transformation().crop("limit").width(30).height(40),
+                    "sslmode", "require"));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
+        return (String)result.get("url");
+    }
+
+    @Override
+    protected void onPostExecute(String result) {
+        super.onPostExecute(result);
+        delegate.processFinish(result);
     }
 
     protected Bitmap dlPhoto() {

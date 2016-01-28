@@ -8,25 +8,22 @@ import java.util.List;
  * Created by cedricrohaut on 1/15/16.
  */
 public class Photo {
-    private List<Tag> tags;
     private String nom;
     private String url;
     private LatLng coordonnees;
+    private Tag tag;
 
 
-    public Photo(List<Tag> tags, String nom, String url, LatLng coordonnees) {
-        this.tags = tags;
+    public Photo(String nom, String url, LatLng coordonnees, Tag tag) {
         this.nom = nom;
         this.url = url;
         this.coordonnees = coordonnees;
+        this.tag = tag;
     }
 
-    public List<Tag> getTags() {
-        return tags;
-    }
-
-    public void setTags(List<Tag> tags) {
-        this.tags = tags;
+    public Photo(String nom) {
+        this.nom = nom;
+        this.url = "";
     }
 
     public String getNom() {
@@ -51,5 +48,13 @@ public class Photo {
 
     public LatLng getCoordonnees() {
         return coordonnees;
+    }
+
+    public Tag getTag() {
+        return tag;
+    }
+
+    public void setTag(Tag tag) {
+        this.tag = tag;
     }
 }

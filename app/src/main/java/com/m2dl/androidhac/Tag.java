@@ -1,21 +1,28 @@
 package com.m2dl.androidhac;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
- * Created by cedricrohaut on 1/15/16.
+ * Created by manantsoa on 22/01/16.
  */
-public class Tag {
-    private String tag;
+public enum Tag {
+    RECYCLAGE("Recyclage"),
+    DEGRADATION("Dégradation"),
+    FUITEDEAU("Fuite d'eau");
 
-    public String getTag() {
-        return tag;
+    private String name = "";
+    public static Map<String, Tag> stringTagMap = new HashMap<>();
+    static {
+        for(Tag t : Tag.values()) {
+            stringTagMap.put(t.toString(),t);
+        }
+    }
+    Tag(String name) {
+        this.name = name;
     }
 
-    public void setTag(String tag) {
-        this.tag = tag;
-    }
-
-    public Tag(String tag) {
-
-        this.tag = tag;
+    public String toString() {
+        return name;
     }
 }
