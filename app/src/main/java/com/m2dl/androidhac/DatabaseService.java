@@ -2,6 +2,8 @@ package com.m2dl.androidhac;
 
 import android.util.Log;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.Connection;
@@ -9,6 +11,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 /**
@@ -48,7 +52,7 @@ public class DatabaseService {
     }
 
 
-    public static ResultSet getAllPhoto(String sqlRequest) throws URISyntaxException, SQLException {
+    public static List<Photo> getAllPhoto(String sqlRequest) throws URISyntaxException, SQLException {
         Connection c;
         Statement s;
         ResultSet resultSet;
@@ -56,9 +60,29 @@ public class DatabaseService {
         c = getConnection();
         s = c.createStatement();
         resultSet = s.executeQuery(sqlRequest);
+
+        List<Photo> photos = new ArrayList<Photo>();
+        if (resultSet != null) {
+            try {
+                while (resultSet.next()) {
+                    String url = resultSet.getString("URL");
+                    String nom = resultSet.getString("NOM");
+                    double latitude = resultSet.getDouble("LAT");
+                    double longitude = resultSet.getDouble("LON");
+                    String tag = resultSet.getString("TAG");
+                    Tag t = Tag.stringTagMap.get(tag);
+
+                    Photo photo =  new Photo(nom, url, new LatLng(latitude, longitude), t);
+                    photos.add(photo);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
         s.close();
         c.close();
 
-        return resultSet;
+        return photos;
     }
 }

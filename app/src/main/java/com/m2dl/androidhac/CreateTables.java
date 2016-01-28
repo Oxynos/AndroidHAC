@@ -35,12 +35,6 @@ public class CreateTables extends AsyncTask {
                     "LON REAL)";
             statement.executeUpdate(request);
 
-            //Creation table TAG
-            request = "CREATE TABLE TAG " +
-                    "(ID serial PRIMARY KEY NOT NULL," +
-                    "ID_P INT REFERENCES PHOTO," +
-                    " TAG TEXT NOT NULL)";
-            statement.executeUpdate(request);
             statement.close();
             connection.close();
 

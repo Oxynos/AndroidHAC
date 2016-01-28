@@ -13,45 +13,33 @@ import java.util.List;
 /**
  * Created by Hugues on 27/01/2016.
  */
-public class GetAllTagsAsync  extends AsyncTask {
+public class GetAllTagsAsync  extends AsyncTask<Object, Object, List<Photo>> {
     String request;
+    public AsyncResponcePhotos delegate = null;
 
     public GetAllTagsAsync(String request) {
         this.request = request;
     }
 
     @Override
-    protected Object doInBackground(Object[] params) {
+    protected List<Photo> doInBackground(Object[] params) {
 
-        ResultSet rs = null;
+        List<Photo> photos = null;
 
         try {
-            rs = DatabaseService.getAllPhoto(request);
+            photos = DatabaseService.getAllPhoto(request);
         } catch (URISyntaxException e) {
             e.printStackTrace();
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        List<Photo> photos = new ArrayList<Photo>();
-        if (rs != null) {
-            try {
-                while (rs.next()) {
-                    String url = rs.getString("URL");
-                    String nom = rs.getString("NOM");
-                    double latitude = rs.getDouble("LAT");
-                    double longitude = rs.getDouble("LON");
-                    String tag = rs.getString("TAG");
-                    Tag t = Tag.stringTagMap.get(tag);
+        return photos;
+    }
 
-                    Photo photo =  new Photo(nom, url, new LatLng(latitude, longitude), t);
-                    photos.add(photo);
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return null;
+    @Override
+    protected void onPostExecute(List<Photo> result) {
+        super.onPostExecute(result);
+        delegate.processFinish(result);
     }
 }

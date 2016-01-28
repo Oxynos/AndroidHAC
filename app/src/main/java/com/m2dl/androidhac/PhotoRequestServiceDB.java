@@ -10,7 +10,7 @@ public class PhotoRequestServiceDB {
                 + "VALUES ('" + photo.getUrl() + "', " +
                 "'" + photo.getNom() + "','" + photo.getCoordonnees().latitude + "'," +
                 "'" + photo.getCoordonnees().longitude + "'," +
-                "'" + photo.getTag() +"');";
+                "'" + photo.getTag().toString() +"');";
     }
 
     public static String getAllTags() {

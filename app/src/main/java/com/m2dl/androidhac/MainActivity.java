@@ -22,21 +22,25 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, AsyncResponcePhotos {
     private static final int MY_PERMISSIONS_REQUEST = 0;
     User user;
     List<Photo> photos;
@@ -45,6 +49,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private Button btnPhoto;
     private ImageView ivPhoto;
     private AsyncTask dbInstance;
+    private GoogleMap gMap;
+    private Map<String, Photo> mapPhotos;
 
     private Uri imageUri;
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
@@ -57,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
 
         photos = new ArrayList<>();
+        mapPhotos = new HashMap<String, Photo>();
 
         setContentView(R.layout.activity_main);
 
@@ -81,8 +88,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-       // GetAllTagsAsync gata = new GetAllTagsAsync(PhotoRequestServiceDB.getAllTags());
-       // gata.execute();
+        GetAllTagsAsync gata = new GetAllTagsAsync(PhotoRequestServiceDB.getAllTags());
+        gata.delegate = this;
+        gata.execute();
     }
 
     @Override
@@ -103,7 +111,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = JPEG_FILE_PREFIX  + "_" + timeStamp + "_";
+        String imageFileName = JPEG_FILE_PREFIX + "_" + timeStamp + "_";
 
         File photo = new File(Environment.getExternalStorageDirectory(), imageFileName + JPEG_FILE_SUFFIX);
         takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photo));
@@ -190,20 +198,47 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         map.setMyLocationEnabled(true);
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(ups, 13));
 
-        map.addMarker(new MarkerOptions()
-                .title("Université Paul Sabatier")
-                .snippet("La plus belle université")
-                .position(ups));
-
+        gMap = map;
     }
 
     public void permissions() {
-        String permissions [] = {
+        String permissions[] = {
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_COARSE_LOCATION
         };
 
         ActivityCompat.requestPermissions(this, permissions, 3);
+    }
+
+    @Override
+    public void processFinish(List<Photo> output) {
+        photos = output;
+        final Activity act = this;
+
+        for (Photo p : photos) {
+            Marker currentMArker = gMap.addMarker(new MarkerOptions()
+                    .title(p.getNom())
+                    .position(p.getCoordonnees()));
+
+            mapPhotos.put(p.getNom(), p);
+        }
+
+        gMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+
+            @Override
+            public boolean onMarkerClick(Marker arg0) {
+
+                Photo p = mapPhotos.get(arg0.getTitle());
+
+                Intent intent = new Intent(act, ViewTagActivity.class);
+                String send = p.getUrl() + " " + p.getTag().toString();
+                intent.putExtra("photo", send);
+                startActivity(intent);
+
+                return true;
+            }
+
+        });
     }
 }

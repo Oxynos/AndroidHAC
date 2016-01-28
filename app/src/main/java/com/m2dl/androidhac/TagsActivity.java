@@ -186,8 +186,14 @@ public class TagsActivity extends AppCompatActivity implements AsyncResponse {
     @Override
     public void processFinish(String url) {
 
-        Photo photo = new Photo(url,imageUri.getPath(), latlng, tag);
+        String[] split = imageUri.getPath().split("/");
+        Photo photo = new Photo(split[split.length - 1], url, latlng, tag);
         databaseTask = new DatabaseTask(PhotoRequestServiceDB.createPhoto(photo));
         databaseTask.execute();
+
+        Intent myIntent = new Intent(this, MainActivity.class);
+        startActivity(myIntent);
+
+        this.finish();
     }
 }

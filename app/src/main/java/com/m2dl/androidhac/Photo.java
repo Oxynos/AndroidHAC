@@ -18,6 +18,7 @@ public class Photo {
         this.nom = nom;
         this.url = url;
         this.coordonnees = coordonnees;
+        this.tag = tag;
     }
 
     public Photo(String nom) {
